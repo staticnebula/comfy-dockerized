@@ -1,0 +1,27 @@
+# All model folders live under the host-mounted /data/models
+comfyui:
+  base_path: /data/models
+  is_default: true
+  checkpoints: checkpoints
+  clip: clip
+  clip_vision: clip_vision
+  configs: configs
+  controlnet: controlnet
+  diffusion_models: |
+    diffusion_models
+    unet
+  embeddings: embeddings
+  gligen: gligen
+  hypernetworks: hypernetworks
+  loras: loras
+  photomaker: photomaker
+  style_models: style_models
+  text_encoders: text_encoders
+  upscale_models: upscale_models
+  vae: vae
+  vae_approx: vae_approx
+
+# Host-mounted custom nodes (loaded in addition to the bundled ones)
+custom:
+  base_path: /data
+  custom_nodes: custom_nodes

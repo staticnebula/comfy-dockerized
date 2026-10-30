@@ -1,0 +1,38 @@
+services:
+  comfyui:
+    build:
+      context: .
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
+    image: comfyui-local:latest
+    container_name: comfyui
+    # Bound to localhost only; not reachable from the network
+    ports:
+      - "127.0.0.1:${COMFYUI_PORT:-8188}:8188"
+    volumes:
+      - ${MODELS_DIR:-./models}:/data/models
+      - ${OUTPUT_DIR:-./output}:/data/output
+      - ./input:/data/input
+      - ./user:/data/user
+      - ${CUSTOM_NODES_DIR:-./custom_nodes}:/data/custom_nodes
+      # pip packages required by custom nodes (pip install --user)
+      - ./python-packages:/data/python
+    read_only: true
+    tmpfs:
+      # exec is needed for triton/torch JIT kernels
+      - /tmp:rw,exec,nosuid,nodev,size=8g
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    shm_size: 8gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped

@@ -1,0 +1,8 @@
+.git
+.env
+models/
+output/
+input/
+user/
+custom_nodes/
+python-packages/
