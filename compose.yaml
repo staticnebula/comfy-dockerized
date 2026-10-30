@@ -18,6 +18,8 @@ services:
       - ${CUSTOM_NODES_DIR:-./custom_nodes}:/data/custom_nodes
       # pip packages required by custom nodes (pip install --user)
       - ./python-packages:/data/python
+      # Disk-backed temp dir for pip downloads and builds
+      - scratch:/var/tmp
     read_only: true
     tmpfs:
       # exec is needed for triton/torch JIT kernels
@@ -36,3 +38,6 @@ services:
               count: all
               capabilities: [gpu]
     restart: unless-stopped
+
+volumes:
+  scratch:

@@ -37,6 +37,13 @@ WORKDIR /opt/comfyui
 RUN pip install torch torchvision torchaudio --index-url "${TORCH_INDEX}" \
  && pip install -r requirements.txt
 
+# Stop custom-node installs from replacing the CUDA torch build; the local
+# version label (+cu130) is dropped so builds that need torch from PyPI still resolve.
+# TMPDIR points at a disk-backed volume: pip builds can need far more than the /tmp tmpfs.
+RUN pip freeze | grep -E '^(torch|torchvision|torchaudio)==' | sed 's/+.*//' > /opt/comfyui/constraints.txt
+ENV PIP_CONSTRAINT=/opt/comfyui/constraints.txt \
+    TMPDIR=/var/tmp
+
 COPY extra_model_paths.yaml /opt/comfyui/extra_model_paths.yaml
 
 RUN mkdir -p /data/models /data/output /data/input /data/user /data/custom_nodes /data/python \
