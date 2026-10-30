@@ -15,7 +15,11 @@ comfyui:
   hypernetworks: hypernetworks
   loras: loras
   photomaker: photomaker
+  sams: sams
   style_models: style_models
+  ultralytics: ultralytics
+  ultralytics_bbox: ultralytics/bbox
+  ultralytics_segm: ultralytics/segm
   text_encoders: text_encoders
   upscale_models: upscale_models
   vae: vae
