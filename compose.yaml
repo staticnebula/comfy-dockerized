@@ -7,6 +7,8 @@ services:
         GID: "${GID:-1000}"
     image: comfyui-local:latest
     container_name: comfyui
+    # Extra ComfyUI arguments, appended to the image's entrypoint
+    command: ["--preview-method", "auto"]
     # Bound to localhost only; not reachable from the network
     ports:
       - "127.0.0.1:${COMFYUI_PORT:-8188}:8188"
